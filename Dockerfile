@@ -11,7 +11,7 @@ RUN apt-get clean && apt update && apt install -y imagemagick libmagickwand-dev 
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-enable imagick \
     && docker-php-source extract \
-    && docker-php-ext-configure gd --with-webp-dir=/usr/include/webp --with-jpeg=/usr/include --with-freetype=/usr/include/ \
+    && docker-php-ext-configure gd --with-webp=/usr/include/webp --with-jpeg=/usr/include --with-freetype=/usr/include/ \
     && docker-php-ext-install gd && docker-php-source delete
 
 RUN { \
