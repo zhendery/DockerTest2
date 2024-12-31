@@ -41,6 +41,7 @@ jobs:
       - name: Composer Install
         uses: php-actions/composer@v6
         with:
+          php_version: "8.1"
           working_dir: "lsky-pro"
 
       # Install the cosign tool except on PR
