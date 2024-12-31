@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.1-fpm-alpine
 
 RUN a2enmod rewrite
 
