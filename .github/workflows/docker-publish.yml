@@ -40,6 +40,8 @@ jobs:
 
       - name: Composer Install
         uses: php-actions/composer@v6
+        with:
+          working_dir: "lsky-pro"
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
