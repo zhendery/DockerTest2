@@ -3,8 +3,8 @@ FROM php:8.1-fpm-alpine
 # 使用 ustc 镜像加速
 # RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list &&
 
-RUN apk add --no-cache imagemagick libmagickwand-dev \
-    libwebp-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev \
+RUN apk add --no-cache imagemagick imagemagick-dev \
+    libwebp-dev freetype-dev libjpeg-turbo-dev libmcrypt-dev libpng-dev \
     && pecl install imagick \
     && apt-get clean \
     \
