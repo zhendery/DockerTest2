@@ -1,7 +1,5 @@
 FROM php:8.1-fpm-alpine
 
-RUN a2enmod rewrite
-
 # 使用 ustc 镜像加速
 # RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list &&
 
@@ -40,7 +38,7 @@ RUN { \
     chmod -R g=u /var/www
 
 COPY ./lsky-pro/ /var/www/lsky/
-COPY ./000-default.conf /etc/apache2/sites-enabled/
+COPY ./000-default.conf /usr/local/etc/php-fpm.d/www.conf
 COPY entrypoint.sh /
 WORKDIR /var/www/html
 VOLUME /var/www/html
