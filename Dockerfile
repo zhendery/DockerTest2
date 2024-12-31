@@ -4,9 +4,10 @@ FROM php:8.1-fpm-alpine
 # RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list &&
 
 RUN apk add --no-cache imagemagick imagemagick-dev \
+    bash autoconf gcc g++ make \
     libwebp-dev freetype-dev libjpeg-turbo-dev libmcrypt-dev libpng-dev \
     && pecl install imagick \
-    && apt-get clean \
+    && apk del gcc g++ make autoconf \
     \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install pdo_mysql \
