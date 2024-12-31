@@ -2,6 +2,9 @@ FROM php:8.1-apache
 
 RUN a2enmod rewrite
 
+# 使用 ustc 镜像加速
+# RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list &&
+
 RUN apt-get clean && apt update && apt install -y imagemagick libmagickwand-dev \
     libwebp-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev \
     && pecl install imagick \
