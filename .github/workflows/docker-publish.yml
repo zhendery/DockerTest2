@@ -38,6 +38,9 @@ jobs:
       - name: Update Submodule
         run: git submodule update --init --recursive
 
+      - name: Composer Install
+        uses: php-actions/composer@v6
+
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
