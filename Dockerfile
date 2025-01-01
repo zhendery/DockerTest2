@@ -41,7 +41,7 @@ RUN { \
 
 COPY ./lsky-pro/ /var/www/lsky/
 COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
-COPY ./lsky-pro.conf /etc/nginx/http.d/lsky-pro.conf
+COPY ./nginx/ /etc/nginx/
 COPY entrypoint.sh /
 WORKDIR /var/www/html
 VOLUME /var/www/html
