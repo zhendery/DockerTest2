@@ -10,6 +10,7 @@ on:
 env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
+  LOWERCASE_IMAGE_NAME: ""
 
 
 jobs:
@@ -72,13 +73,13 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ env.IMAGE_NAME }}:main
+          tags: ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:main
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Sign the published Docker image
         env:
-          TAGS: ghcr.io/${{ env.IMAGE_NAME }}:main
+          TAGS: ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:main
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
@@ -91,8 +92,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:latest
-            ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+            ${{ env.LOWERCASE_IMAGE_NAME }}:latest
+            ${{ env.LOWERCASE_IMAGE_NAME }}:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -100,8 +101,8 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         env:
           TAGS: |
-            ${{ env.IMAGE_NAME }}:latest
-            ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+            ${{ env.LOWERCASE_IMAGE_NAME }}:latest
+            ${{ env.LOWERCASE_IMAGE_NAME }}:${{ github.ref_name }}
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
