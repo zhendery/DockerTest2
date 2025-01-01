@@ -49,12 +49,6 @@ jobs:
         run: |
           IMAGE_NAME=${{ env.IMAGE_NAME }}
           echo "LOWERCASE_IMAGE_NAME=${IMAGE_NAME,,}" >> $GITHUB_ENV
-
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.IMAGE_NAME }}
           
 
       - name: Login to GitHub Container Registry
@@ -78,14 +72,13 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ghcr.io/${{ env.IMAGE_NAME }}:main
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Sign the published Docker image
         env:
-          TAGS: ghcr.io/${{ steps.meta.outputs.tags }}
+          TAGS: ghcr.io/${{ env.IMAGE_NAME }}:main
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
