@@ -77,14 +77,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Sign the published Docker image
-        env:
-          TAGS: ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:main
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+      # 调试用的镜像不签名，如有需要可以打开
+      # - name: Sign the published Docker image
+      #   env:
+      #     TAGS: ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:main
+      #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
+      #   run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
         
-    # 发布tag时推送到dockerhub  
+      # 发布tag时推送到dockerhub  
       - name: Push Docker image to Docker Hub (on tag push)
         if: startsWith(github.ref, 'refs/tags/')
         uses: docker/build-push-action@v6
