@@ -17,33 +17,38 @@ jobs:
   check-changes:
     runs-on: ubuntu-latest
     outputs:
-      skip: ${{ steps.check_changes.outputs.skip }}  # 将输出设置为作业输出
+      skip: ${{ steps.check_changes.outputs.skip }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 确保获取所有历史
 
       - name: List all files
         run: |
           echo "Listing all files in repository:"
           git ls-tree -r HEAD --name-only
 
+      - name: Show differences
+        run: |
+          git diff HEAD^ HEAD  # 显示最新提交与前一个提交的差异
+
       - name: Check for changes
         id: check_changes
         run: |
-          echo "Checking for changes..."
-          CHANGED_FILES=$(git diff --name-only HEAD)  # 直接与当前状态比较
+          CHANGED_FILES=$(git diff --name-only HEAD)
           echo "Changed files: $CHANGED_FILES"
           
-          if [ -z "$CHANGED_FILES" ] || [[ "$CHANGED_FILES" =~ ^(README\.md|docs/.*)$ ]]; then
-            echo "skip=true" >> $GITHUB_OUTPUT  # 设置输出
+          if [ -z "$CHANGED_FILES" ] || [[ "$CHANGED_FILES" =~ ^(.github/.*)$ ]]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
           else
-            echo "skip=false" >> $GITHUB_OUTPUT  # 设置输出
+            echo "skip=false" >> $GITHUB_OUTPUT
           fi
 
   run-action:
     runs-on: ubuntu-latest
     needs: check-changes
-    if: ${{ needs.check-changes.outputs.skip != 'true' }}  # 使用作业输出
+    if: ${{ needs.check-changes.outputs.skip != 'true' }}
     steps:
       - name: Run my action
         run: echo "This action runs if changes are not only in README or docs"
