@@ -24,6 +24,10 @@ jobs:
         with:
           fetch-depth: 0  # 确保获取所有历史
 
+      - name: Get current branch name
+        id: current_branch
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        
       - name: Check for changes
         id: check_changes
         run: |
