@@ -24,8 +24,5 @@ jobs:
   run-action:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Run my action
-        run: echo "This action runs if changes are not only in README or docs"
+      - name: Get branch name
+        run: echo "Branch name is ${GITHUB_REF##*/}"
