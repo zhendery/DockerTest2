@@ -28,7 +28,8 @@ jobs:
         id: check_changes
         run: |
           echo "Checking for changes..."
-          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+          LAST_PUSH_COMMIT=$(git rev-parse HEAD^)
+          CHANGED_FILES=$(git diff --name-only $LAST_PUSH_COMMIT HEAD)
           echo "Changed files: $CHANGED_FILES"
           
           if [ -z "$CHANGED_FILES" ] || [[ "$CHANGED_FILES" =~ ^(README\.md|docs/.*)$ ]]; then
