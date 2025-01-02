@@ -25,6 +25,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get branch name
-        run: echo "Branch name is ${GITHUB_REF##*/}"
+        run: echo "Branch name is ${{ github.ref_name }}"
 
-        
