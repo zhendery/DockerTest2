@@ -24,15 +24,6 @@ jobs:
         with:
           fetch-depth: 0  # 确保获取所有历史
 
-      - name: List all files
-        run: |
-          echo "Listing all files in repository:"
-          git ls-tree -r HEAD --name-only
-
-      - name: Show differences
-        run: |
-          git diff HEAD^ HEAD  # 显示最新提交与前一个提交的差异
-
       - name: Check for changes
         id: check_changes
         run: |
@@ -40,7 +31,7 @@ jobs:
           CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
           echo "Changed files: $CHANGED_FILES"
           
-          if [ -z "$CHANGED_FILES" ] || [[ "$CHANGED_FILES" =~ ^(\.github/.*)$ ]]; then
+          if [ -z "$CHANGED_FILES" ] || [[ "$CHANGED_FILES" =~ ^(README\.md|docs/.*)$ ]]; then
             echo "skip=true" >> $GITHUB_OUTPUT
           else
             echo "skip=false" >> $GITHUB_OUTPUT
