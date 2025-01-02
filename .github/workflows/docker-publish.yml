@@ -8,9 +8,8 @@ on:
     branches: "main"
 
 env:
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
-  LOWERCASE_IMAGE_NAME: ""
+  BRANCH_NAME: ""
+  BASE_SHA: ""
 
 
 jobs:
@@ -28,13 +27,28 @@ jobs:
         id: current_branch
         run: |
           echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-          echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}"
+
+      - name: Determine base SHA
+        id: determine_base
+        run: |
+          BASE_SHA=$(git merge-base HEAD origin/${{ env.BRANCH_NAME }})
+          echo "BASE_SHA=$BASE_SHA" >> $GITHUB_ENV
+  
+      - name: List all files
+        run: |
+          echo "Listing all files in repository:"
+          git ls-tree -r HEAD --name-only
+
+      - name: Show differences from base
+        run: |
+          echo "Differences from base ${{ env.BASE_SHA }} for branch ${{ env.BRANCH_NAME }}:"
+          git diff ${{ env.BASE_SHA }} HEAD
 
       - name: Check for changes
         id: check_changes
         run: |
           echo "Checking for changes..."
-          LAST_PUSH_COMMIT=$(git merge-base HEAD ${GITHUB_REF#refs/heads/})
+          LAST_PUSH_COMMIT=$(git merge-base HEAD origin/${GITHUB_REF#refs/heads/})
           CHANGED_FILES=$(git diff --name-only $LAST_PUSH_COMMIT HEAD)
           echo "Changed files: $CHANGED_FILES"
           
