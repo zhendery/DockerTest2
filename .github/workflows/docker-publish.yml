@@ -28,4 +28,4 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Run my action
-      run: echo "This action runs if changes are not only in README or docs"
+        run: echo "This action runs if changes are not only in README or docs"
