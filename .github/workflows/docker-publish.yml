@@ -28,7 +28,7 @@ jobs:
         id: check_changes
         run: |
           echo "Checking for changes..."
-          LAST_PUSH_COMMIT=$(git rev-parse HEAD^)
+          LAST_PUSH_COMMIT=$(git merge-base HEAD ${GITHUB_REF#refs/heads/})
           CHANGED_FILES=$(git diff --name-only $LAST_PUSH_COMMIT HEAD)
           echo "Changed files: $CHANGED_FILES"
           
