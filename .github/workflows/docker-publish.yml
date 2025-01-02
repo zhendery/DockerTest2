@@ -22,6 +22,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: List all files
+        run: |
+          echo "Listing all files in repository:"
+          git ls-tree -r HEAD --name-only
+
       - name: Check for changes
         id: check_changes
         run: |
