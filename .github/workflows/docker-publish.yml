@@ -26,7 +26,7 @@ jobs:
         id: check_changes
         run: |
           echo "Checking for changes..."
-          CHANGED_FILES=$(git diff --name-only HEAD^)
+          CHANGED_FILES=$(git diff --name-only HEAD)  # 直接与当前状态比较
           echo "Changed files: $CHANGED_FILES"
           
           if [ -z "$CHANGED_FILES" ] || [[ "$CHANGED_FILES" =~ ^(README\.md|docs/.*)$ ]]; then
